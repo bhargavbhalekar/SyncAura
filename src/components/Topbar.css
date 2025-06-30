@@ -1,0 +1,39 @@
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px 30px;
+    background-color: #1f2b5b;
+color: white;
+}
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+.profile-img {
+ width: 60px;             /* ⬅️ Increase image size */
+  height: 60px;
+  border-radius: 50%;      /* Makes it perfectly round */
+  object-fit: cover;       /* Ensures image scales properly */
+  margin-top: 4px;         /* Optional: align with bell icon */
+  cursor: pointer;
+  border: 2px solid white;
+}
+.topbar-right input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+}
+
+.notification {
+  font-size: 40px;       /* ⬅️ Make bell icon big */
+  margin-top: 4px;       /* optional: move it down a bit */
+  cursor: pointer;
+}
+.topbar h1{
+   margin-right: 40px; /* or adjust as needed */
+  font-size: 28px;
+}

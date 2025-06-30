@@ -1,0 +1,126 @@
+/* PAGE LAYOUT */
+.dashboard-page {
+  background: linear-gradient(to bottom, #3b4c92, #7c8bd6);
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* NAVBAR LOGO AREA */
+.navbar {
+  background-color: #1f2b5b;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  color: white;
+}
+
+/* TOPBAR and SIDEBAR remain unchanged */
+
+/* MAIN CONTENT */
+.main-content {
+  flex: 1;
+  padding: 40px;
+  color: white;
+}
+
+/* HEADING */
+.projects-heading {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+/* ADD PROJECT FORM */
+.add-project-form {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.add-project-form input,
+.add-project-form select {
+  padding: 15px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  background-color: #f3f6fa;
+  color: #000;
+  outline: none;
+}
+
+.date-label {
+  font-size: 16px;
+  color: #fff;
+  margin-top: 10px;
+}
+
+/* ADD PROJECT BUTTON */
+.add-project-form button {
+  padding: 15px;
+  font-size: 18px;
+  background-color: #407edb;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.add-project-form button:hover {
+  background-color: #314eaa;
+}
+
+/* PROJECT CARD */
+.projects-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.project-card {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 20px;
+  color: white;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+}
+
+.project-card h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.project-card p {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+/* DELETE BUTTON */
+.delete-btn {
+  margin-top: 15px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.delete-btn:hover {
+  background-color: #c9302c;
+}

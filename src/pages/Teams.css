@@ -1,0 +1,129 @@
+.teams-heading {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: white;
+  font-weight: bold;
+}
+
+/* Add Team Form */
+.add-team-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.add-team-form input,
+.add-team-form select {
+  padding: 14px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #f3f6fa;
+  color: #000;
+  outline: none;
+}
+
+.add-team-form button {
+  background-color: #407edb;
+  color: white;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.add-team-form button:hover {
+  background-color: #314eaa;
+}
+
+/* Teams List */
+.teams-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Team Card */
+.team-card {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 20px;
+  color: white;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+}
+
+.team-card h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.team-card p {
+  font-size: 18px;
+  margin: 6px 0;
+}
+
+/* Badge Styling */
+.badge {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  color: white;
+  display: inline-block;
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+
+.badge.frontend { background-color: #42a5f5; }
+.badge.backend { background-color: #66bb6a; }
+.badge.fullstack { background-color: #ab47bc; }
+.badge.devops { background-color: #ffa726; }
+.badge.qa { background-color: #ef5350; }
+.badge.uiux { background-color: #7e57c2; }
+
+/* Button Actions */
+.team-actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+}
+
+.team-actions button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.team-actions button:first-child {
+  background-color: #4caf50;
+  color: white;
+}
+
+.team-actions button:first-child:hover {
+  background-color: #388e3c;
+}
+
+.team-actions .delete {
+  background-color: #d9534f;
+  color: white;
+}
+
+.team-actions .delete:hover {
+  background-color: #c9302c;
+}
