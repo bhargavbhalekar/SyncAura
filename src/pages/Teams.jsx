@@ -1,28 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
 import './Teams.css';
 import logo from '../assets/syncaura-logo.svg';
 import EditTeamModal from '../components/EditTeamModal';
+import { getTeams, createTeam } from '../api/api';
+import { updateTeam } from '../api/api'; 
+import { deleteTeam } from '../api/api';
+
+
 
 const Teams = () => {
-  const [teams, setTeams] = useState([
-    {
-      id: 1,
-      name: "Team Alpha",
-      members: ["Alice", "Bob", "Charlie"],
-      roles: ["Frontend", "Backend", "UI/UX"],
-      assignedProjects: ["Project A"]
-    },
-    {
-      id: 2,
-      name: "Team Beta",
-      members: ["David", "Eva"],
-      roles: ["QA", "DevOps"],
-      assignedProjects: ["Project B"]
-    }
-  ]);
-
+  const [teams, setTeams] = useState([]);
   const [newTeam, setNewTeam] = useState({
     name: '',
     members: '',
@@ -33,42 +22,78 @@ const Teams = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState(null);
 
+  // Load teams from backend
+  useEffect(() => {
+    const fetchTeams = async () => {
+      try {
+        const data = await getTeams();
+        setTeams(data);
+      } catch (err) {
+        console.error('Error fetching teams:', err);
+      }
+    };
+
+    fetchTeams();
+  }, []);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewTeam({ ...newTeam, [name]: value });
   };
 
-  const handleAddTeam = () => {
+  const handleAddTeam = async () => {
     const { name, members, roles, assignedProjects } = newTeam;
     if (!name || !members || !roles || !assignedProjects) return;
 
     const newTeamData = {
-      id: Date.now(),
       name,
-      members: members.split(',').map(m => m.trim()),
+      members: members.split(',').map((m, i) => ({
+        name: m.trim(),
+        role: roles.split(',')[i]?.trim() || ''
+      })),
       roles: roles.split(',').map(r => r.trim()),
-      assignedProjects: assignedProjects.split(',').map(p => p.trim())
+      projects: assignedProjects.split(',').map(p => p.trim())
     };
 
-    setTeams([...teams, newTeamData]);
-    setNewTeam({ name: '', members: '', roles: '', assignedProjects: '' });
+    try {
+      const savedTeam = await createTeam(newTeamData);
+      setTeams([...teams, savedTeam]);
+      setNewTeam({ name: '', members: '', roles: '', assignedProjects: '' });
+    } catch (error) {
+      alert("Failed to save team to backend");
+      console.error("Team saving failed:", error);
+    }
   };
 
-  const handleDeleteTeam = (id) => {
-    setTeams(teams.filter(team => team.id !== id));
-  };
+const handleDeleteTeam = async (id) => {
+  try {
+    await deleteTeam(id);
+    setTeams(teams.filter(team => team._id !== id)); 
+  } catch (err) {
+    console.error('Delete failed:', err.response?.data || err.message);
+    alert('Failed to delete team');
+  }
+};
 
   const handleEditClick = (team) => {
     setSelectedTeam(team);
     setIsEditing(true);
   };
 
-  const handleSaveEdit = (updatedTeam) => {
-    const updatedTeams = teams.map(team => team.id === updatedTeam.id ? updatedTeam : team);
+const handleSaveEdit = async (updatedTeam) => {
+  try {
+    const saved = await updateTeam(updatedTeam._id, updatedTeam);
+    const updatedTeams = teams.map(team =>
+      team._id === saved._id ? saved : team
+    );
     setTeams(updatedTeams);
     setIsEditing(false);
     setSelectedTeam(null);
-  };
+  } catch (err) {
+    console.error('Update failed:', err);
+    alert('Failed to update team');
+  }
+};
 
   return (
     <div className="dashboard-page">
@@ -90,24 +115,55 @@ const Teams = () => {
 
           {/* Add Team Form */}
           <div className="add-team-form">
-            <input type="text" name="name" placeholder="Team Name" value={newTeam.name} onChange={handleInputChange} />
-            <input type="text" name="members" placeholder="Members (comma separated)" value={newTeam.members} onChange={handleInputChange} />
-            <input type="text" name="roles" placeholder="Roles (comma separated)" value={newTeam.roles} onChange={handleInputChange} />
-            <input type="text" name="assignedProjects" placeholder="Assigned Projects" value={newTeam.assignedProjects} onChange={handleInputChange} />
+            <input
+              type="text"
+              name="name"
+              placeholder="Team Name"
+              value={newTeam.name}
+              onChange={handleInputChange}
+            />
+            <input
+              type="text"
+              name="members"
+              placeholder="Members (comma separated)"
+              value={newTeam.members}
+              onChange={handleInputChange}
+            />
+            <input
+              type="text"
+              name="roles"
+              placeholder="Roles (comma separated)"
+              value={newTeam.roles}
+              onChange={handleInputChange}
+            />
+            <input
+              type="text"
+              name="assignedProjects"
+              placeholder="Assigned Projects (comma separated)"
+              value={newTeam.assignedProjects}
+              onChange={handleInputChange}
+            />
             <button onClick={handleAddTeam}>Add Team</button>
           </div>
 
           {/* Teams List */}
           <div className="teams-list">
             {teams.map((team) => (
-              <div key={team.id} className="team-card">
+              <div key={team._id} className="team-card">
                 <h3>{team.name}</h3>
-                <p><strong>Members:</strong> {team.members.join(', ')}</p>
-                <p><strong>Roles:</strong> {team.roles.join(', ')}</p>
-                <p><strong>Projects:</strong> {team.assignedProjects.join(', ')}</p>
+                <p>
+                  <strong>Members:</strong>{' '}
+                  {team.members?.map((m, i) =>
+                    typeof m === 'object'
+                      ? `${m.name || 'N/A'} (${m.role || 'N/A'})`
+                      : m
+                  ).join(', ')}
+                </p>
+                <p><strong>Roles:</strong> {team.roles?.join(', ')}</p>
+                <p><strong>Projects:</strong> {team.projects?.join(', ')}</p>
                 <div className="team-actions">
                   <button onClick={() => handleEditClick(team)}>Edit</button>
-                  <button className="delete" onClick={() => handleDeleteTeam(team.id)}>Delete</button>
+                  <button className="delete" onClick={() => handleDeleteTeam(team._id)}>Delete</button>
                 </div>
               </div>
             ))}

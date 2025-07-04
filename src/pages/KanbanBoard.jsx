@@ -1,35 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
 import logo from '../assets/syncaura-logo.svg';
 import './KanbanBoard.css';
+import { getTasks, createTask, deleteTask } from '../api/api';
 
 const KanbanBoard = () => {
   const [columns, setColumns] = useState({
-    todo: {
-      name: "To Do",
-      newTask: "",
-      items: [
-        { id: "1", content: "Design UI" },
-        { id: "2", content: "Write Docs" },
-      ],
-    },
-    inProgress: {
-      name: "In Progress",
-      newTask: "",
-      items: [
-        { id: "3", content: "Backend Setup" },
-      ],
-    },
-    done: {
-      name: "Done",
-      newTask: "",
-      items: [
-        { id: "4", content: "Project Plan" },
-      ],
-    },
+    todo: { name: "To Do", newTask: "", items: [] },
+    inProgress: { name: "In Progress", newTask: "", items: [] },
+    done: { name: "Done", newTask: "", items: [] },
   });
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const tasks = await getTasks();
+
+        const grouped = {
+          todo: { name: 'To Do', newTask: '', items: [] },
+          inProgress: { name: 'In Progress', newTask: '', items: [] },
+          done: { name: 'Done', newTask: '', items: [] },
+        };
+
+        tasks.forEach(task => {
+          const status = task.status || 'todo';
+          if (grouped[status]) {
+            grouped[status].items.push({ id: task._id, content: task.title });
+          }
+        });
+
+        setColumns(grouped);
+      } catch (err) {
+        console.error("Failed to fetch tasks:", err);
+      }
+    };
+
+    fetchTasks();
+  }, []);
 
   const handleDragEnd = (result) => {
     const { source, destination } = result;
@@ -63,37 +72,49 @@ const KanbanBoard = () => {
           items: destItems,
         },
       });
+      // (Optional) Save updated status in DB here
     }
   };
 
-  const handleAddTask = (columnId) => {
+  const handleAddTask = async (columnId) => {
     const taskText = columns[columnId].newTask.trim();
     if (!taskText) return;
 
-    const newTask = {
-      id: Date.now().toString(),
-      content: taskText,
-    };
+    try {
+      const newTask = await createTask({
+        title: taskText,
+        status: columnId,
+      });
 
-    setColumns({
-      ...columns,
-      [columnId]: {
-        ...columns[columnId],
-        items: [...columns[columnId].items, newTask],
-        newTask: ""
-      },
-    });
+      setColumns({
+        ...columns,
+        [columnId]: {
+          ...columns[columnId],
+          items: [...columns[columnId].items, { id: newTask._id, content: newTask.title }],
+          newTask: ""
+        },
+      });
+    } catch (err) {
+      console.error("Failed to create task:", err);
+      alert("Task creation failed");
+    }
   };
 
-  const handleRemoveTask = (columnId, taskId) => {
-    const updatedItems = columns[columnId].items.filter(item => item.id !== taskId);
-    setColumns({
-      ...columns,
-      [columnId]: {
-        ...columns[columnId],
-        items: updatedItems
-      }
-    });
+  const handleRemoveTask = async (columnId, taskId) => {
+    try {
+      await deleteTask(taskId);
+      const updatedItems = columns[columnId].items.filter(item => item.id !== taskId);
+      setColumns({
+        ...columns,
+        [columnId]: {
+          ...columns[columnId],
+          items: updatedItems
+        }
+      });
+    } catch (err) {
+      console.error("Failed to delete task:", err);
+      alert("Task deletion failed");
+    }
   };
 
   const handleInputChange = (e, columnId) => {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import logo from '../assets/syncaura-logo.svg';
+import { login } from '../api/api'; // 🔄 import login API
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,19 +10,20 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
 
-  const handleLogin = () => {
-    if (!email || !password || !role) {
-      alert('Please fill all fields.');
-      return;
-    }
+ const handleLogin = async () => {
+  if (!email || !password || !role) {
+    alert('Please fill all fields.');
+    return;
+  }
 
-    if (email === 'admin@syncaura.com' && password === '1234') {
-      navigate('/dashboard');
-    } else {
-      alert('Invalid credentials!');
-    }
-  };
-
+  try {
+    const data = await login(email, password, role);
+    console.log("✅ Login successful:", data.user);
+    navigate('/dashboard');
+  } catch (err) {
+    alert(err.response?.data?.error || "Login failed");
+  }
+};
   return (
     <div className="login-container">
       <div className="navbar">
@@ -30,7 +32,7 @@ const Login = () => {
           <h1 className="navbar-title">SyncAura</h1>
         </div>
         <div className="navbar-right">
-          <button className="signup-btn">Sign Up</button>
+<button className="signup-btn" onClick={() => navigate('/signup')}>Sign Up</button>
         </div>
       </div>
 

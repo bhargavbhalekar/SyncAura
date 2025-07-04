@@ -1,23 +1,16 @@
-const express = require('express');
-const router = express.Router();
-const {
+import express from 'express';
+import {
   getMessages,
   sendMessage,
-  getGroupMessages,
-  createMessage,
   sendGroupMessage,
-} = require('../controllers/messageController');
+  getGroupMessages,
+} from '../controllers/messageController.js';
 
-// Individual chat messages
+const router = express.Router();
+
 router.get('/:senderId/:receiverId', getMessages);
 router.post('/:senderId/:receiverId', sendMessage);
-router.post('/:senderId/:receiverId', createMessage);
-router.get('/:senderId/:receiverId', getMessages);
-
-
-// Group chat messages
 router.get('/group/:teamId', getGroupMessages);
 router.post('/group/:teamId', sendGroupMessage);
-router.post('/', createMessage);
 
-module.exports = router;
+export default router;

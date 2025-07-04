@@ -1,33 +1,48 @@
-const Team = require('../models/Team');
+import Team from '../models/Team.js'; // ✅ This is correct
 
-// Get all teams
-const getAllTeams = async (req, res) => {
-  const teams = await Team.find();
-  res.json(teams);
+export const createTeam = async (req, res) => {
+  try {
+    const newTeam = new Team(req.body);  
+    const saved = await newTeam.save();
+    res.status(201).json(saved);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
-// Create a team
-const createTeam = async (req, res) => {
-  const newTeam = new Team(req.body);
-  const savedTeam = await newTeam.save();
-  res.status(201).json(savedTeam);
+export const getAllTeam = async (req, res) => {
+  try {
+    const team = await Team.find();  // ✅ not Team
+    res.json(team);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
+
 
 // Update a team
-const updateTeam = async (req, res) => {
-  const updated = await Team.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json(updated);
+export const updateTeam = async (req, res) => {
+  try {
+    const updated = await Team.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updated) {
+      return res.status(404).json({ error: 'Team not found' });
+    }
+    res.json(updated);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 };
+
 
 // Delete a team
-const deleteTeam = async (req, res) => {
-  await Team.findByIdAndDelete(req.params.id);
-  res.json({ message: 'Team deleted' });
-};
-
-module.exports = {
-  getAllTeams,
-  createTeam,
-  updateTeam,
-  deleteTeam,
+export const deleteTeam = async (req, res) => {
+  try {
+    const deleted = await Team.findByIdAndDelete(req.params.id); 
+    if (!deleted) {
+      return res.status(404).json({ error: 'Team not found' });
+    }
+    res.json({ message: 'Team deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };

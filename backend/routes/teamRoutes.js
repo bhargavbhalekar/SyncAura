@@ -1,16 +1,16 @@
-const express = require('express');
-const router = express.Router();
-const {
-  getAllTeams,
+import express from 'express';
+import {
+  getAllTeam,
   createTeam,
   updateTeam,
-  deleteTeam,
-} = require('../controllers/teamController');
+  deleteTeam
+} from '../controllers/teamController.js';
 
-// Define routes
-router.get('/', getAllTeams);
-router.post('/', createTeam);
+const router = express.Router();
+
+router.get('/', getAllTeam);
+router.post('/', createTeam); // ✅ POST route must exist
 router.put('/:id', updateTeam);
 router.delete('/:id', deleteTeam);
 
-module.exports = router;
+export default router;

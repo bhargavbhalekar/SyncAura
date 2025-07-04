@@ -1,25 +1,25 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const teamRoutes = require('./routes/teamRoutes');
-const userRoutes = require('./routes/userRoutes');
-const taskRoutes = require('./routes/taskRoutes');
-const messageRoutes = require('./routes/messageRoutes');
+import express from 'express';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import userRoutes from './routes/userRoutes.js';
+import projectRoutes from './routes/projectRoutes.js';
+import teamRoutes from './routes/teamRoutes.js';
+import taskRoutes from './routes/taskRoutes.js';
+import messageRoutes from './routes/messageRoutes.js';
+import connectDB from './config/db.js';
+import authRoutes from './routes/authRoutes.js';
+
+dotenv.config();
+connectDB();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-// MongoDB Connection
-mongoose.connect('mongodb://127.0.0.1:27017/syncaura', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
-
-// Routes
-app.use('/api/teams', teamRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/teams', teamRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/messages', messageRoutes);
 

@@ -1,16 +1,17 @@
-const express = require('express');
-const router = express.Router();
-
-const {
+// routes/taskRoutes.js
+import express from 'express';
+import {
   getAllTasks,
   createTask,
   updateTask,
   deleteTask,
-} = require('../controllers/taskController'); // ✅ Make sure this path is correct
+} from '../controllers/taskController.js';
+
+const router = express.Router();
 
 router.get('/', getAllTasks);
 router.post('/', createTask);
 router.put('/:id', updateTask);
 router.delete('/:id', deleteTask);
 
-module.exports = router;
+export default router;

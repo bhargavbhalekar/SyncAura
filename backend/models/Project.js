@@ -1,11 +1,32 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const projectSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  status: { type: String, enum: ['Ongoing', 'Completed'], default: 'Ongoing' },
-  startDate: Date,
+  title: {
+    type: String,
+    required: true,
+  },
+  description: String,
+  startDate: {
+    type: Date,
+    default: Date.now,
+  },
   endDate: Date,
-  team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
-}, { timestamps: true });
+  status: {
+    type: String,
+    enum: ['Not Started', 'In Progress', 'Completed'],
+    default: 'Not Started',
+  },
+  assignedTeam: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Team',
+  },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
+}, {
+  timestamps: true,
+});
 
-module.exports = mongoose.model('Project', projectSchema);
+const Project = mongoose.model('Project', projectSchema);
+export default Project;

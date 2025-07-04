@@ -1,22 +1,25 @@
-const Message = require('../models/Message');
+import Message from '../models/Message.js';
 
-// Get all individual messages between two users
-const getMessages = async (req, res) => {
+// Get individual messages between sender and receiver
+export const getMessages = async (req, res) => {
   try {
+    const { senderId, receiverId } = req.params;
+
     const messages = await Message.find({
       $or: [
-        { senderId: req.params.userId, receiverId: req.params.receiverId },
-        { senderId: req.params.receiverId, receiverId: req.params.userId }
-      ]
-    });
+        { sender: senderId, receiver: receiverId },
+        { sender: receiverId, receiver: senderId },
+      ],
+    }).sort({ createdAt: 1 });
+
     res.json(messages);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
-// Send a message (individual)
-const sendMessage = async (req, res) => {
+// Send individual message
+export const sendMessage = async (req, res) => {
   try {
     const newMessage = new Message(req.body);
     const saved = await newMessage.save();
@@ -26,18 +29,19 @@ const sendMessage = async (req, res) => {
   }
 };
 
-// Get all group messages by team ID
-const getGroupMessages = async (req, res) => {
+// Get all group messages
+export const getGroupMessages = async (req, res) => {
   try {
-    const messages = await Message.find({ teamId: req.params.teamId });
+    const teamId = req.params.teamId;
+    const messages = await Message.find({ receiver: teamId });
     res.json(messages);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Failed to get group messages' });
   }
 };
 
 // Send a message to a group
-const sendGroupMessage = async (req, res) => {
+export const sendGroupMessage = async (req, res) => {
   try {
     const newGroupMessage = new Message(req.body);
     const saved = await newGroupMessage.save();
@@ -45,11 +49,4 @@ const sendGroupMessage = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
-
-module.exports = {
-  getMessages,
-  sendMessage,
-  getGroupMessages,
-  sendGroupMessage,
 };

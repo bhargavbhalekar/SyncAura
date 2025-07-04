@@ -1,32 +1,22 @@
-const Project = require('../models/Project');
+import Project from '../models/Project.js';
 
-// Get all projects
-exports.getAllProjects = async (req, res) => {
-  try {
-    const projects = await Project.find();
-    res.json(projects);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch projects' });
-  }
+export const getAllProjects = async (req, res) => {
+  const projects = await Project.find();
+  res.json(projects);
 };
 
-// Create a new project
-exports.createProject = async (req, res) => {
-  try {
-    const newProject = new Project(req.body);
-    await newProject.save();
-    res.status(201).json(newProject);
-  } catch (error) {
-    res.status(400).json({ error: 'Failed to create project' });
-  }
+export const createProject = async (req, res) => {
+  const newProject = new Project(req.body);
+  const savedProject = await newProject.save();
+  res.status(201).json(savedProject);
 };
 
-// Delete a project
-exports.deleteProject = async (req, res) => {
-  try {
-    await Project.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Project deleted' });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to delete project' });
-  }
+export const updateProject = async (req, res) => {
+  const updated = await Project.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json(updated);
+};
+
+export const deleteProject = async (req, res) => {
+  await Project.findByIdAndDelete(req.params.id);
+  res.json({ message: 'Project deleted' });
 };

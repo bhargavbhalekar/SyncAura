@@ -11,6 +11,12 @@
 # production
 /build
 
+# .gitignore
+node_modules
+.env
+dist
+
+
 # misc
 .DS_Store
 .env.local

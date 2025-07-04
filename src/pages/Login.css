@@ -115,3 +115,12 @@
 .login-box button:hover {
   background-color: #314eaa;
 }
+/* 🔄 Extra tweaks for SignUp screen (optional) */
+.login-heading.signup {
+  font-size: 48px;
+  margin-bottom: 30px;
+}
+
+.login-box.signup-box {
+  margin-top: 80px;
+}
