@@ -1,26 +1,27 @@
 .messages-container {
   background: #ffffff;
   border-radius: 12px;
-  padding: 20px;
-  max-width: 800px;
-  margin: auto;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  padding: 40px 50px;
+  max-width: 1200px; /* increased for laptop */
+  margin: 30px auto; /* centered */
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
 }
 
 .chat-toggle {
   display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
 .chat-toggle button {
-  padding: 8px 16px;
+  padding: 10px 20px;
   border: none;
   border-radius: 6px;
   background-color: #e0e0e0;
   cursor: pointer;
   font-weight: 500;
   transition: 0.2s;
+  font-size: 15px;
 }
 
 .chat-toggle button.active {
@@ -29,32 +30,32 @@
 }
 
 .messages-container select {
-  padding: 8px;
+  padding: 10px;
   border-radius: 6px;
   border: 1px solid #ccc;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   width: 100%;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .chat-box {
   background-color: #f7f7f7;
   border-radius: 10px;
-  padding: 15px;
-  height: 300px;
+  padding: 20px;
+  height: 400px; /* increased height */
   overflow-y: auto;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .message-bubble {
-  padding: 10px 15px;
+  padding: 12px 18px;
   border-radius: 20px;
-  max-width: 60%;
-  font-size: 14px;
-  line-height: 1.4;
+  max-width: 70%; /* allow slightly larger messages */
+  font-size: 15px;
+  line-height: 1.5;
   word-wrap: break-word;
 }
 
@@ -72,14 +73,14 @@
 
 .message-sender {
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: bold;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
   opacity: 0.8;
 }
 
 .message-content {
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .message-input {
@@ -89,17 +90,36 @@
 
 .message-input input {
   flex: 1;
-  padding: 10px;
+  padding: 12px;
   border-radius: 6px;
   border: 1px solid #ccc;
+  font-size: 15px;
 }
 
 .message-input button {
-  padding: 10px 16px;
+  padding: 12px 20px;
   background-color: #007bff;
   border: none;
   border-radius: 6px;
   color: white;
   cursor: pointer;
   font-weight: 500;
+  font-size: 15px;
+}
+
+/* Optional: responsive tweak for smaller screens */
+@media (max-width: 768px) {
+  .messages-container {
+    padding: 20px;
+    margin: 20px;
+  }
+
+  .chat-box {
+    height: 300px;
+  }
+
+  .message-bubble {
+    max-width: 90%;
+    font-size: 14px;
+  }
 }

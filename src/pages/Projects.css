@@ -47,8 +47,8 @@
 
 .add-project-form input,
 .add-project-form select {
-  padding: 15px;
-  font-size: 18px;
+  padding: 30px;
+  font-size: 30px;
   border: none;
   border-radius: 8px;
   background-color: #f3f6fa;
@@ -64,8 +64,8 @@
 
 /* ADD PROJECT BUTTON */
 .add-project-form button {
-  padding: 15px;
-  font-size: 18px;
+  padding: 30px;
+  font-size: 30px;
   background-color: #407edb;
   color: white;
   border: none;

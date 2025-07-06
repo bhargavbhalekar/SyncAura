@@ -21,7 +21,7 @@
 
 .kanban-column {
   background-color: #ffffff;
-  padding: 40px 30px;
+  padding: 80px 80px;
   border-radius: 20px;
   width: 400px;
   min-width: 350px;
@@ -29,6 +29,7 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
+  margin-top: 30px;
 }
 
 .kanban-column h2 {
@@ -48,8 +49,8 @@
 }
 
 .add-task input {
-  padding: 16px 18px;
-  font-size: 16px;
+  padding: 30px 20px;
+  font-size: 22px;
   border-radius: 8px;
   border: 1px solid #cfd8dc;
   margin-bottom: 12px;
@@ -63,8 +64,8 @@
 }
 
 .add-task button {
-  padding: 14px;
-  font-size: 16px;
+  padding: 30px;
+  font-size: 22px;
   background-color: #3a5dff;
   color: white;
   border: none;
@@ -81,11 +82,11 @@
 /* Task Card */
 .kanban-task {
   background-color: #ecf3fc;
-  padding: 18px 16px;
+  padding: 20px 20px;
   margin-bottom: 16px;
   border-radius: 10px;
   border-left: 5px solid #3a5dff;
-  font-size: 16px;
+  font-size: 22px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -107,9 +108,9 @@
   background-color: #ff4d4f;
   border: none;
   color: white;
-  padding: 8px 12px;
+  padding: 20px 20px;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 22px;
   cursor: pointer;
   transition: 0.2s;
   margin-left: 10px;
