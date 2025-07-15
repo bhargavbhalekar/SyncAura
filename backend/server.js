@@ -20,7 +20,7 @@ const app = express();
 // ✅ Define allowed origins
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://syncaura.vercel.app', // 🔁 Replace with your actual Vercel frontend URL if different
+  'https://sync-aura.vercel.app/', // 🔁 Replace with your actual Vercel frontend URL if different
 ];
 
 // ✅ Apply CORS properly
