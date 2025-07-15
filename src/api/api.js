@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5002/api';
+const API_BASE_URL = 'http://localhost:5000/api';
 export const createTeam = async (teamData) => {
   try {
     const res = await axios.post(`${API_BASE_URL}/teams`, teamData);
@@ -11,12 +11,12 @@ export const createTeam = async (teamData) => {
   }
 };
 export const updateTeam = async (id, teamData) => {
-  const res = await axios.put(`http://localhost:5002/api/teams/${id}`, teamData);
+  const res = await axios.put(`http://localhost:5000/api/teams/${id}`, teamData);
   return res.data;
 };
 
 export const deleteTeam = async (id) => {
-  const res = await axios.delete(`http://localhost:5002/api/teams/${id}`);
+  const res = await axios.delete(`http://localhost:5000/api/teams/${id}`);
   return res.data;
 };
 
@@ -91,10 +91,10 @@ export const getDashboardStats = async () => {
   };
 };
 export const login = async (email, password, role) => {
-  const res = await axios.post('http://localhost:5002/api/auth/login', { email, password, role });
+  const res = await axios.post('http://localhost:5000/api/auth/login', { email, password, role });
   return res.data;
 };
 export const signup = async (email, password, role) => {
-  const res = await axios.post('http://localhost:5002/api/auth/signup', { email, password, role });
+  const res = await axios.post('http://localhost:5000/api/auth/signup', { email, password, role });
   return res.data;
 };
